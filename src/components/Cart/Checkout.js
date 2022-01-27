@@ -52,31 +52,44 @@ const Checkout = (props) => {
 
         // handle invalid form
         if (!formIsValid) {
-           return
+            return
         }
 
         // submit form
-
+        props.onConfirm({
+            name: enteredName,
+            street: enteredStreet,
+            city: enteredCity,
+            postalCode: enteredPostalCode
+        })
     };
+
+    // improve code readability
+    const injectInvalidClass = formItem => {
+        return `${classes.control} ${formItem ? '' : classes.invalid}`
+    }
 
     return (
         <form className={classes.form} onSubmit={confirmHandler}>
-            <div className={classes.control}>
+            <div className={injectInvalidClass(formInputsValidity.name)}>
                 <label htmlFor='name'>Your Name</label>
                 <input type='text' id='name' ref={nameInputRef}/>
                 {!formInputsValidity.name && <p>Please enter a valid name.</p>}
             </div>
-            <div className={classes.control}>
+            <div className={injectInvalidClass(formInputsValidity.street)}>
                 <label htmlFor='street'>Street</label>
                 <input type='text' id='street' ref={streetInputRef}/>
+                {!formInputsValidity.street && <p>Please enter a valid street.</p>}
             </div>
-            <div className={classes.control}>
+            <div className={injectInvalidClass(formInputsValidity.postalCode)}>
                 <label htmlFor='postal'>Postal Code</label>
                 <input type='text' id='postal' ref={postalCodeInputRef}/>
+                {!formInputsValidity.postalCode && <p>Please enter a valid postal code.</p>}
             </div>
-            <div className={classes.control}>
+            <div className={injectInvalidClass(formInputsValidity.city)}>
                 <label htmlFor='city'>City</label>
                 <input type='text' id='city' ref={cityInputRef}/>
+                {!formInputsValidity.city && <p>Please enter a valid city.</p>}
             </div>
             <div className={classes.actions}>
                 <button type='button' onClick={props.onCancel}>
